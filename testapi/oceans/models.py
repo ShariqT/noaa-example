@@ -19,54 +19,34 @@ class StationParams(EmbeddedDocument):
 
 class Station(Document):
 	name = StringField(db_field="-name")
-	ID = IntField(db_field="-ID")
+	station_id = StringField(db_field="-ID")
 
 	metadata = EmbeddedDocumentField(StationMetadata)
-	parameter = EmbeddedDocumentListField(StationParams)
+	parameter = DynamicField()
 
 
-	#this is to tell mongoengine to link us to the station collection
-	meta = {"collection": "station", "allow_inheritance": True}
+	#this is to tell mongoengine to link us to the stations collection
+	meta = {"collection": "stations"}
 
 
 	def __str__(self):
-		print("Station Buoy Name {0}".format(self.name))
+		return "Station Buoy Name {0}".format(self.name)
 
 	
-class OceanProducts(EmbeddedDocument):
-	meta = {'allow_inheritance': True}
-	t = DateTimeField()
-	f = StringField()
-	name = StringField()
-	v = FloatField()
-
-class AirPressureProduct(OceanProducts):
-	pass
-
-class WaterTempProduct(OceanProducts):
-	pass
-
-class AirTempProduct(OceanProducts):
-	pass
-
-class WindProduction(OceanProducts):
-	d = StringField()
-	g = StringField()
-	f = StringField()
-	s = StringField()
-	dr = StringField()
 
 
 class OData(Document):
+	pid = ObjectIdField(db_field="_id")
 	station_id = IntField()
 	loc = PointField()
 	name = StringField()
-	id = IntField()
+	senor_id = IntField(db_field="id")
 	fetch_date = DateTimeField()
-	products = EmbeddedDocumentListField(OceanProducts)
-
+	products = DynamicField()
+	lat = FloatField()
+	lon = FloatField()
 	#this is to tell mongoengine to link us to the ocean_data collection
-	meta = {"collection": "ocean_data", 'allow_inheritance': True}
+	meta = {"collection": "ocean_data"}
 	def __str__(self):
 		print("Ocean data point {0}".format(self.name))
 	

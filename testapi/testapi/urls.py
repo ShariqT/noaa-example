@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from rest_framework.routers import DefaultRouter
+from rest_framework_mongoengine.routers import DefaultRouter
+from oceans.views import StationViewSet, ODataViewSet
+
 
 router = DefaultRouter()
+router.register(r'stations', StationViewSet, "station")
+router.register(r'odata', ODataViewSet, "odata")
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include(router.urls))
+    url(r'^api/', include(router.urls))
 ]
