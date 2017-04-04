@@ -24,5 +24,6 @@ router.register(r'stations', StationViewSet, "station")
 router.register(r'odata', ODataViewSet, "odata")
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(router.urls))
+    url(r'^api/', include(router.urls)),
+    url(r'^$', include('oceans.urls'))
 ]

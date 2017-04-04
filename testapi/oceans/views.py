@@ -5,7 +5,7 @@ from rest_framework.request import Request
 from rest_framework.decorators import detail_route
 from .serializers import StationSerializer, ODataSerializer
 from .models import Station, OData
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 import json
 
 connect("oceans", username="oceans", password="oceans")
@@ -43,12 +43,14 @@ class StationViewSet(ModelViewSet):
 			return "Looks up senor data related to this station"
 		
 
-
-
 class ODataViewSet(ModelViewSet):
 	lookup_field = "id"
 	serializer_class = ODataSerializer
 
 	def get_queryset(self):
 		return OData.objects.all()
+
+
+def index(request):
+	return render(request, "index.html", {'stations': Station.objects.all()})
 

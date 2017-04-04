@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="App">
+	<head>
+		<title>Dashboard</title>
+		
+		<script>
+			var STATIONS = [
+				{% for s in stations %}
+					{% verbatim %}{ {% endverbatim %} 
+						"name": "{{s.name}}" 
+					{% verbatim %}},{% endverbatim %}
+				{% endfor %}
+			];
+		</script>
+		
+		<!-- load MUI -->
+		<link rel="stylesheet" type="text/css" media="screen" href="//cdn.muicss.com/mui-0.9.13/css/mui.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    	<script src="http://cdn.muicss.com/mui-0.9.13/angular/mui-angular.min.js"></script>
+		<script>
+			var app = angular.module('App', ['mui']);
+
+			app.controller("DashboardCtrl", function($scope){
+				console.log("inside of the controller");
+				$scope.STATIONS = STATIONS;
+				$scope.console = function(){
+					console.log("clicked!!");
+				}
+
+				$scope.selected = function(input){
+					console.log(input);
+				}
+			});
+
+		</script>
+	{% verbatim %}	
+	</head>
+	<body ng-controller="DashboardCtrl">
+		<mui-appbar>
+			<mui-container>
+				<table>
+					<tr class="mui--appbar-height">
+		            	<td class="mui--text-title"><strong>Dashboard</strong></td>
+		          	</tr>
+	      		</table>
+  			</mui-container>
+		</mui-appbar>
+		<mui-container>
+			<h1>Sensor Dashboard</h1>
+			<mui-panel>
+				<label>Station List</label>
+				<select ng-model="sel" ng-change="selected(sel)">
+					<option value="">-- Station List --</option>
+				    <option ng-repeat="station in STATIONS" value="{{station.name}}">{{station.name}}</option>
+				</select>
+			</mui-panel>
+		</mui-container>
+	</body>
+</html>
+{% endverbatim %}
