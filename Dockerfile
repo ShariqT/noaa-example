@@ -30,7 +30,7 @@ RUN pip install -r requirements.txt
 
 RUN pip install uwsgi
 
-RUN service mongod start
+RUN service mongodb start
 
 RUN mongorestore --archive=noaadb.archive
 
