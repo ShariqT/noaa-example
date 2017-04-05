@@ -20,7 +20,7 @@ RUN echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-or
 
 RUN apt-get update
 
-RUN apt-get install -y mongodb-org
+RUN apt-get install -y mongodb
 
 RUN wget https://bootstrap.pypa.io/get-pip.py
 
@@ -29,5 +29,11 @@ RUN python2.7 get-pip.py
 RUN pip install -r requirements.txt
 
 RUN pip install uwsgi
+
+RUN service mongod start
+
+RUN mongorestore --archive=noaadb.archive
+
+RUN uwsgi --ini uwsgi.ini
 
 EXPOSE 80
