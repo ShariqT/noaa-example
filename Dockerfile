@@ -2,6 +2,8 @@ FROM ubuntu:14.04
 
 COPY . .
 
+RUN mkdir -p /data/db
+
 RUN apt-get update
 
 RUN apt-get install -y build-essential
@@ -30,9 +32,9 @@ RUN pip install -r requirements.txt
 
 RUN pip install uwsgi
 
-RUN chmod +x start.sh
+RUN chmod +x ./start.sh
 
 EXPOSE 80
 
-CMD start.sh
+CMD ./start.sh
 
