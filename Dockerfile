@@ -30,10 +30,9 @@ RUN pip install -r requirements.txt
 
 RUN pip install uwsgi
 
-RUN service mongod start
-
-RUN mongorestore --archive=noaadb.archive
-
-RUN uwsgi --ini uwsgi.ini
+RUN chmod +x start.sh
 
 EXPOSE 80
+
+CMD start.sh
+
