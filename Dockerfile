@@ -4,6 +4,12 @@ COPY . .
 
 RUN mkdir -p /data/db
 
+RUN mkdir -p /var/log/uwsgi
+
+touch /var/log/uwsgi/requests.log
+
+touch /var/log/uwsgi/errors.log
+
 RUN apt-get update
 
 RUN apt-get install -y build-essential
@@ -15,6 +21,8 @@ RUN apt-get install -y curl
 RUN apt-get install -y wget
 
 RUN apt-get install -y git
+
+RUN apt-get install -y nano
 
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
 
