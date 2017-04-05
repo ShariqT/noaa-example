@@ -6,9 +6,9 @@ RUN mkdir -p /data/db
 
 RUN mkdir -p /var/log/uwsgi
 
-touch /var/log/uwsgi/requests.log
+RUN touch /var/log/uwsgi/requests.log
 
-touch /var/log/uwsgi/errors.log
+RUN touch /var/log/uwsgi/errors.log
 
 RUN apt-get update
 
