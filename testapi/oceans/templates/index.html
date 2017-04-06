@@ -7,7 +7,9 @@
 			var STATIONS = [
 				{% for s in stations %}
 					{% verbatim %}{ {% endverbatim %} 
-						"name": "{{s.name}}" 
+						"name": "{{s.name}}",
+						"station_id":"{{s.station_id}}"
+
 					{% verbatim %}},{% endverbatim %}
 				{% endfor %}
 			];
@@ -20,15 +22,36 @@
 		<script>
 			var app = angular.module('App', ['mui']);
 
-			app.controller("DashboardCtrl", function($scope){
+			app.controller("DashboardCtrl", function($scope, $http){
 				console.log("inside of the controller");
 				$scope.STATIONS = STATIONS;
+				$scope.currentStation = null;
+				$scope.currentSensors = [];
 				$scope.console = function(){
 					console.log("clicked!!");
 				}
 
-				$scope.selected = function(input){
-					console.log(input);
+				$scope.selected = function(sel){
+					console.log(sel);
+					$http.get("/api/stations/" + sel).then(function(res){
+						console.log(res);
+						if(res.status === 200){
+							$scope.currentStation = res.data;
+							$http.get("/api/stations/" + res.data.station_id + "/sensors").then(function(res){
+								if(res.status === 404){
+									$scope.senor_error = "No recent sensor data!";
+								}
+
+								if(res.status === 200){
+									$scope.currentSensors.push(res.data[0]);
+									$scope.currentSensors.push(res.data[1]);
+								}
+								console.log(res);
+							});
+						}
+
+					});
+
 				}
 			});
 
@@ -51,8 +74,20 @@
 				<label>Station List</label>
 				<select ng-model="sel" ng-change="selected(sel)">
 					<option value="">-- Station List --</option>
-				    <option ng-repeat="station in STATIONS" value="{{station.name}}">{{station.name}}</option>
+				    <option ng-repeat="station in STATIONS" value="{{station.station_id}}">{{station.name}}</option>
 				</select>
+			</mui-panel>
+
+			<mui-panel ng-show="currentStation != null">
+				<p>Location: {{currentStation.name}}, {{currentStation.metadata.location.state}}</p>
+				<p>Established: {{currentStation.metadata.date_established}}</p>
+
+
+			</mui-panel>
+
+			<mui-panel ng-show="currentSensors.length > 0">
+				<h3>Latest Readings</h3>
+
 			</mui-panel>
 		</mui-container>
 	</body>

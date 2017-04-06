@@ -23,6 +23,7 @@ class StationViewSet(ModelViewSet):
 	serializer_class = StationSerializer
 
 	def get_queryset(self):
+		
 		return Station.objects.all()
 
 	def retrieve(self, request, station_id=None):
