@@ -10,8 +10,6 @@ RUN touch /var/log/uwsgi/requests.log
 
 RUN touch /var/log/uwsgi/errors.log
 
-RUN apt-get update
-
 RUN apt-get install -y build-essential
 
 RUN apt-get install -y python2.7 python2.7-dev
