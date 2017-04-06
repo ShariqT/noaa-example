@@ -28,7 +28,7 @@ RUN echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiver
 
 RUN apt-get update
 
-RUN apt-get install -y mongodb
+RUN apt-get install -y mongodb-org=3.2.12 mongodb-org-server=3.2.12 mongodb-org-shell=3.2.12 mongodb-org-mongos=3.2.12 mongodb-org-tools=3.2.12
 
 RUN wget https://bootstrap.pypa.io/get-pip.py
 
