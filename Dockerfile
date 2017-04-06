@@ -22,8 +22,6 @@ RUN apt-get install -y wget
 
 RUN apt-get install -y git
 
-RUN apt-get install -y nano
-
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
 
 RUN echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.2 multiverse" | tee /etc/apt/sources.list.d/mongodb.list
