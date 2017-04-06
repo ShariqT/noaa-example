@@ -33,6 +33,7 @@
 
 				$scope.selected = function(sel){
 					console.log(sel);
+					$scope.currentSensors = [];
 					$http.get("/api/stations/" + sel).then(function(res){
 						console.log(res);
 						if(res.status === 200){
@@ -43,6 +44,7 @@
 								}
 
 								if(res.status === 200){
+									$scope.currentSensors= [];
 									$scope.currentSensors.push(res.data[0]);
 									$scope.currentSensors.push(res.data[1]);
 								}
