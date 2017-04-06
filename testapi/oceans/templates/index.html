@@ -25,7 +25,7 @@
 			app.controller("DashboardCtrl", function($scope, $http){
 				console.log("inside of the controller");
 				$scope.STATIONS = STATIONS;
-				$scope.currentStation = null;
+				$scope.currentStation, $scope.sensor_error = null;
 				$scope.currentSensors = [];
 				$scope.console = function(){
 					console.log("clicked!!");
@@ -39,14 +39,14 @@
 							$scope.currentStation = res.data;
 							$http.get("/api/stations/" + res.data.station_id + "/sensors").then(function(res){
 								if(res.status === 404){
-									$scope.senor_error = "No recent sensor data!";
+									$scope.sensor_error = "No recent sensor data!";
 								}
 
 								if(res.status === 200){
 									$scope.currentSensors.push(res.data[0]);
 									$scope.currentSensors.push(res.data[1]);
 								}
-								console.log(res);
+								console.log($scope.currentSensors);
 							});
 						}
 
@@ -80,14 +80,25 @@
 
 			<mui-panel ng-show="currentStation != null">
 				<p>Location: {{currentStation.name}}, {{currentStation.metadata.location.state}}</p>
-				<p>Established: {{currentStation.metadata.date_established}}</p>
+				<p>Established: {{currentStation.metadata.date_established | date}}</p>
 
 
 			</mui-panel>
-
+			<mui-panel ng-show="sensor_error != null">
+			error
+		</mui-panel>
 			<mui-panel ng-show="currentSensors.length > 0">
 				<h3>Latest Readings</h3>
-
+				<div ng-repeat="sensor in currentSensors">
+					<h4>{{sensor.name}} | {{sensor.fetch_date | date}}</h4>
+					
+					
+					
+					<div ng-repeat="p in sensor.products">
+						<p>{{p.name}}:{{p.v}}</p>
+					</div>
+					<hr />
+				</div>
 			</mui-panel>
 		</mui-container>
 	</body>
