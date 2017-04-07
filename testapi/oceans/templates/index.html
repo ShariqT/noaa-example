@@ -34,14 +34,13 @@
 				$scope.selected = function(sel){
 					console.log(sel);
 					$scope.currentSensors = [];
+					$scope.sensor_error = null;
 					$http.get("/api/stations/" + sel).then(function(res){
 						console.log(res);
 						if(res.status === 200){
 							$scope.currentStation = res.data;
 							$http.get("/api/stations/" + res.data.station_id + "/sensors").then(function(res){
-								if(res.status === 404){
-									$scope.sensor_error = "No recent sensor data!";
-								}
+								
 
 								if(res.status === 200){
 									$scope.currentSensors= [];
@@ -49,6 +48,10 @@
 									$scope.currentSensors.push(res.data[1]);
 								}
 								console.log($scope.currentSensors);
+							}, function(jqError){
+
+								$scope.sensor_error = "No recent sensor data!";
+								
 							});
 						}
 
@@ -87,7 +90,7 @@
 
 			</mui-panel>
 			<mui-panel ng-show="sensor_error != null">
-			error
+			No sensor data available for this location.
 		</mui-panel>
 			<mui-panel ng-show="currentSensors.length > 0">
 				<h3>Latest Readings</h3>
